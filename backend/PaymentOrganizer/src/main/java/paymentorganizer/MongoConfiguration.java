@@ -3,6 +3,11 @@ package paymentorganizer;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoTimeoutException;
 import com.mongodb.WriteConcern;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +24,33 @@ import paymentorganizer.model.User;
 @EnableMongoRepositories(basePackages = "paymentorganizer.repositories")
 public class MongoConfiguration extends AbstractMongoConfiguration {
 
-    // ---------------------------------------------------- mongodb config
+	public static final String addressSub = "10.38.41.";
+	public static final String serverMongoIp = "10.38.41.138";
+	public static final String localMongoIp = "127.0.0.1";
+
+	public static boolean detectIsOnServer() {
+		Enumeration<NetworkInterface> e;
+		try {
+			e = NetworkInterface.getNetworkInterfaces();
+		} catch (SocketException ex) {
+			return false;
+		}
+		while (e.hasMoreElements()) {
+			NetworkInterface n = e.nextElement();
+			Enumeration<InetAddress> ee = n.getInetAddresses();
+			while (ee.hasMoreElements()) {
+				InetAddress i = ee.nextElement();
+				if (i instanceof Inet4Address) {
+					if (i.toString().contains(addressSub)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	// ---------------------------------------------------- mongodb config
 	@Override
 	protected String getDatabaseName() {
 		return "paymentOrganizer";
@@ -29,11 +60,8 @@ public class MongoConfiguration extends AbstractMongoConfiguration {
 	@Bean
 	public MongoClient mongo() throws Exception {
 		MongoClient client;
-		try {
-			client = new MongoClient();
-		} catch (MongoTimeoutException ex) {
-			client = new MongoClient();
-		}
+		String ip = detectIsOnServer() ? serverMongoIp : localMongoIp;
+		client = new MongoClient(ip);
 		client.setWriteConcern(WriteConcern.SAFE);
 		return client;
 	}
@@ -43,7 +71,7 @@ public class MongoConfiguration extends AbstractMongoConfiguration {
 		return "paymentorganizer.model";
 	}
 
-    // ---------------------------------------------------- MongoTemplate
+	// ---------------------------------------------------- MongoTemplate
 	@Bean
 	@Override
 	public MongoTemplate mongoTemplate() throws Exception {
