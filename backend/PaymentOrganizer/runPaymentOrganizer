@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export MAVEN_OPTS=-Xmx64m
+nohup mvn exec:java -Dexec.mainClass="paymentorganizer.api.ApiController" &> paymentToganizer.log &

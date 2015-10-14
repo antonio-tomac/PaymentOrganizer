@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+		<script>
+			var socket = new SockJS('http://localhost:8081/control');
+			var stompClient = Stomp.over(socket);
+			var stompFailureCallback = function (error) {
+				console.log('STOMP: ' + error);
+				setTimeout(stompConnect, 10000);
+				console.log('STOMP: Reconecting in 10 seconds');
+			};
+			var stompSuccessCallback = function(frame) {
+				//setConnected(true);
+				console.log('Connected: ' + frame);
+				stompClient.subscribe('b', function(greeting){
+					showGreeting(JSON.parse(greeting.body));
+				});
+			};
+			function stompConnect() {
+				console.log('STOMP: Attempting connection');
+				// recreate the stompClient to use a new WebSocket
+				//stompClient = Stomp.over(socket);
+				console.log('STOMP: Attempting new connect');
+				stompClient.connect({}, stompSuccessCallback, stompFailureCallback);
+			}
+			function connect() {
+				stompConnect();
+			}
+			function showGreeting(message) {
+				$('#content').html(message.message);
+				$('#content').show();
+			}
+		</script>
+	</head>
+	<body onload="connect();">
+		<h1>naslov</h1>
+		<p id="content" style="display: none;">Doslo</p>
+	</body>
+</html>
