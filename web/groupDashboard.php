@@ -16,6 +16,13 @@ if ($group == null) {
 	echo "Group does not exist";
 	die;
 }
+//hack to detect if running on server or local
+$ipCommand = "ifconfig eth0 | grep 'inet addr:' | awk '{print $2}' | cut -d: -f2";
+$ip = exec($ipCommand);
+$socketIp = "127.0.0.1";
+if ($ip == "50.28.32.145") {
+	$socketIp = $ip;
+}
 ?>
 <html>
 	<head>
@@ -34,7 +41,7 @@ if ($group == null) {
 		});
 		</script>
 		<script>
-			var socket = new SockJS('http://localhost:8081/control');
+			var socket = new SockJS('http://<?echo $socketIp;?>:8081/control');
 			var stompClient = Stomp.over(socket);
 			var stompFailureCallback = function (error) {
 				console.log('STOMP: ' + error);
