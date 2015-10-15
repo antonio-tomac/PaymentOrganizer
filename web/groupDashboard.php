@@ -17,12 +17,9 @@ if ($group == null) {
 	die;
 }
 //hack to detect if running on server or local
-$ipCommand = "ifconfig eth0 | grep 'inet addr:' | awk '{print $2}' | cut -d: -f2";
-$ip = exec($ipCommand);
-$socketIp = "127.0.0.1";
-if ($ip == "50.28.32.145") {
-	$socketIp = $ip;
-}
+$localIp = "127.0.0.1";
+$serverIp = "50.28.32.145";
+$socketIp = file_exists("on_server") ? $serverIp : $localIp;
 ?>
 <html>
 	<head>
