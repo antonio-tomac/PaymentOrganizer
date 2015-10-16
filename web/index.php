@@ -1,6 +1,6 @@
 <?php
 
-$groupsJson = file_get_contents("http://localhost:8081/groups");
+$groupsJson = file_get_contents('http://50.28.32.145/:8081/groups');
 $groups = json_decode($groupsJson);
 ?>
 <html>

@@ -1,0 +1,5 @@
+<h2>Group list</h2>
+<div class="list-group">
+    <a ng-repeat="group in groups" ui-sref="dashboard({ id: group.id })" class="list-group-item">{{ ::group.name }}</a>
+</div>
+<div ng-show="is_loading" us-spinner class="spinner"></div>
