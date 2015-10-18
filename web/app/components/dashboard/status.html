@@ -1,0 +1,21 @@
+<div class="row">
+<p class="col-md-1">Status:</p>
+<p class="col-md-11" ng-if="group.sugestedTransactions && group.sugestedTransactions.length">Suggested transactions</p>
+<p class="col-md-11" ng-if="isArray(group.sugestedTransactions) && group.sugestedTransactions.length === 0">Everything is in balance</p>
+<p class="col-md-11" ng-if="!group.sugestedTransactions">
+    group balance is {{ group.groupBalance | number:2 }}, it is caused by missing or too many
+    {{ group.groupBalance > 0 ? 'payments' : 'expenses' }}.
+</p>
+</div>
+<table ng-if="group.sugestedTransactions && group.sugestedTransactions.length">
+    <tr ng-repeat="suggestion in group.sugestedTransactions">
+        <td>{{ suggestion.from.name }}</td>
+        <td>&rarr;</td>
+        <td>{{ suggestion.ammount | number:2 }}</td>
+        <td>&rarr;</td>
+        <td>{{ suggestion.to.name }}</td>
+        <td>
+            <div class="btn btn-default" ng-click="acceptSuggestion(suggestion)">Accept suggestion</div>
+        </td>
+    </tr>
+</table>

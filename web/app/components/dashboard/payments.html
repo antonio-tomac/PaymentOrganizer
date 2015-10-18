@@ -1,0 +1,25 @@
+<p>Payment events:</p>
+<table class="table table-striped">
+    <tr>
+        <th class="col-md-2">Date</th>
+        <th>Type</th>
+        <th>Ammount</th>
+        <th>Data</th>
+        <th>Action</th>
+    </tr>
+    <tr ng-repeat="payment in group.paymentEvents | orderBy:'$index':true track by $index">
+        <td>{{ payment.date | date }}</td>
+        <!--todo dodat sliku-->
+        <td>{{ payment.type }}</td>
+        <td>{{ payment.event.ammount | number:2 }}</td>
+        <td ng-bind-html="getPaymentData(payment)" style="word-break:break-all;"></td>
+        <!--<td>-->
+            <!--<form method="post" style="display: inline; margin: 0;" action="deleter.php" onsubmit="return confirm('Do you really want to delete <? echo $paymentEvent->type; ?>?');">-->
+                <!--<input type="hidden" name="id" value="<?echo $paymentEvent->event->id;?>" />-->
+                <!--<input type="hidden" name="type" value="<?echo $paymentEvent->type;?>" />-->
+                <!--<input type="hidden" name="groupId" value="<? echo $groupId; ?>" />-->
+                <!--<input type="image" src="delete-logo.jpg" alt="Delete" width="25" height="25" />-->
+            <!--</form>-->
+        <!--</td>-->
+    </tr>
+</table>
