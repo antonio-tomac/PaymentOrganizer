@@ -9,12 +9,11 @@
  */
 angular.module('paymentOrganizerApp')
     .controller('DashboardCtrl', function ($scope, $stateParams, Group) {
+        if (!$stateParams.id) return;
         $scope.is_loading = true;
         $scope.group = Group.get({id: $stateParams.id});
         $scope.group.$promise.then(function(){
             $scope.is_loading = false;
-            $scope.name = $scope.group.name;
-            console.log($scope.group);
         });
 
         $scope.acceptSuggestion = function(suggestion){
@@ -44,5 +43,4 @@ angular.module('paymentOrganizerApp')
         };
         $scope.abs = Math.abs;
         $scope.isArray = angular.isArray;
-        $scope.reverse = Array.reverse;
     });

@@ -22,7 +22,7 @@ angular
                 controller: 'GroupsCtrl'
             })
             .state('dashboard', {
-                url: '/dashboard/:id',
+                url: '/dashboard/{id:[^/]+}',
                 templateUrl: 'components/dashboard/dashboard.html',
                 controller: 'DashboardCtrl'
             });

@@ -22,21 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="group.srv.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/components/groups/group.srv.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="38" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dashboard.ctrl.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dashboard.ctrl.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/components/dashboard/dashboard.ctrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.7704918">
-              <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.25669643">
+              <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -56,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="payments.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="payments.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/components/dashboard/payments.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.31070197">
-              <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="22" selection-end-column="20" />
+            <state vertical-scroll-proportion="-2.4545455">
+              <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
               <folding>
                 <element signature="n#style#0;n#td#3;n#tr#1;n#table#0;n#!!top" expanded="true" />
               </folding>
@@ -88,12 +78,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="group.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/spec/services/group.js">
+      <file leaf-file-name="routes.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/scripts/routes.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="37" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="37" />
+              <caret line="16" column="48" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-18.0">
+              <caret line="45" column="46" selection-start-line="45" selection-start-column="44" selection-end-line="45" selection-end-column="46" />
+              <folding>
+                <marker date="1445212028497" expanded="true" signature="747:900" placeholder="..." />
+                <marker date="1445212028497" expanded="true" signature="840:868" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -155,14 +158,12 @@
         <option value="$PROJECT_DIR$/app/scripts/app.js" />
         <option value="$PROJECT_DIR$/app/styles/main.scss" />
         <option value="$PROJECT_DIR$/app/components/groups/groups.html" />
-        <option value="$PROJECT_DIR$/app/scripts/routes.js" />
         <option value="$PROJECT_DIR$/Gruntfile.js" />
         <option value="$PROJECT_DIR$/config/environments/development.json" />
         <option value="$PROJECT_DIR$/app/scripts/services/config.js" />
         <option value="$PROJECT_DIR$/config/config.js" />
         <option value="$PROJECT_DIR$/app/components/groups/group.srv.js" />
         <option value="$PROJECT_DIR$/app/components/groups/groups.ctrl.js" />
-        <option value="$PROJECT_DIR$/app/index.html" />
         <option value="$PROJECT_DIR$/test/spec/controllers/dashboard.js" />
         <option value="$PROJECT_DIR$/test/karma.conf.js" />
         <option value="$PROJECT_DIR$/test/spec/controllers/groups.js" />
@@ -170,8 +171,10 @@
         <option value="$PROJECT_DIR$/app/components/dashboard/status.html" />
         <option value="$PROJECT_DIR$/app/components/dashboard/dashboard.html" />
         <option value="$PROJECT_DIR$/groupDashboard.php" />
-        <option value="$PROJECT_DIR$/app/components/dashboard/dashboard.ctrl.js" />
         <option value="$PROJECT_DIR$/app/components/dashboard/payments.html" />
+        <option value="$PROJECT_DIR$/app/index.html" />
+        <option value="$PROJECT_DIR$/app/scripts/routes.js" />
+        <option value="$PROJECT_DIR$/app/components/dashboard/dashboard.ctrl.js" />
       </list>
     </option>
   </component>
@@ -619,8 +622,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="59" column="61" selection-start-line="59" selection-start-column="61" selection-end-line="59" selection-end-column="61" />
           <folding>
-            <marker date="1445191933274" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1445191933274" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1445212028497" expanded="true" signature="747:900" placeholder="..." />
+            <marker date="1445212028497" expanded="true" signature="840:868" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -763,14 +766,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="38" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/scripts/controllers/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -824,17 +819,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="2" column="36" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-26.777779">
-          <caret line="99" column="62" selection-start-line="99" selection-start-column="62" selection-end-line="99" selection-end-column="62" />
-          <folding>
-            <marker date="1445191933274" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1445191933274" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -924,14 +908,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/dashboard/dashboard.ctrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.7704918">
-          <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/groupDashboard.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-18.925926">
@@ -945,11 +921,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/components/dashboard/payments.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31070197">
-          <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="22" selection-end-column="20" />
+        <state vertical-scroll-proportion="-2.4545455">
+          <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
           <folding>
             <element signature="n#style#0;n#td#3;n#tr#1;n#table#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.0">
+          <caret line="45" column="46" selection-start-line="45" selection-start-column="44" selection-end-line="45" selection-end-column="46" />
+          <folding>
+            <marker date="1445212028497" expanded="true" signature="747:900" placeholder="..." />
+            <marker date="1445212028497" expanded="true" signature="840:868" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="48" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/dashboard/dashboard.ctrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25669643">
+          <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
