@@ -10,7 +10,7 @@ $groups = json_decode($groupsJson);
 	<body>
 		<h2>Group list</h2>
 		<ul>
-		<?
+		<?php
 			foreach ($groups as $group) {
 				echo "<li><a href='groupDashboard.php?groupId=".$group->id."'>".$group->name."</a></li>";
 			}
