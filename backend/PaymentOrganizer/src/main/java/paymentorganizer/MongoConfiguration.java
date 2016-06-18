@@ -1,7 +1,6 @@
 package paymentorganizer;
 
 import com.mongodb.MongoClient;
-import com.mongodb.MongoTimeoutException;
 import com.mongodb.WriteConcern;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -9,12 +8,10 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import paymentorganizer.model.User;
 
 /**
  *
@@ -24,8 +21,8 @@ import paymentorganizer.model.User;
 @EnableMongoRepositories(basePackages = "paymentorganizer.repositories")
 public class MongoConfiguration extends AbstractMongoConfiguration {
 
-	public static final String addressSub = "10.38.41.";
-	public static final String serverMongoIp = "10.38.41.138";
+	public static final String addressSub = "10.11.12.";
+	public static final String serverMongoIp = "10.11.12.3";
 	public static final String localMongoIp = "127.0.0.1";
 
 	public static boolean detectIsOnServer() {
