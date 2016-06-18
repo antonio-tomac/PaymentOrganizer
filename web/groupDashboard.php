@@ -24,7 +24,7 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Payment organizer - <? echo $group->name;?></title>
+		<title>Payment organizer - <?php echo $group->name;?></title>
 		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
@@ -38,7 +38,7 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 		});
 		</script>
 		<script>
-			var socket = new SockJS('http://<?echo $socketIp;?>:8081/control');
+			var socket = new SockJS('http://<?php echo $socketIp;?>:8081/control');
 			var stompClient = Stomp.over(socket);
 			var stompFailureCallback = function (error) {
 				console.log('STOMP: ' + error);
@@ -48,7 +48,7 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 			var stompSuccessCallback = function(frame) {
 				//setConnected(true);
 				console.log('Connected: ' + frame);
-				stompClient.subscribe('<? echo $groupId; ?>', function(greeting){
+				stompClient.subscribe('<?php echo $groupId; ?>', function(greeting){
 					showGreeting(greeting.body);
 				});
 			};
@@ -76,63 +76,63 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 		</style>
 	</head>
 	<body onload="connect();">
-		<h2>Group: <? echo $group->name;?></h2>
-		<p>Status: <?
+		<h2>Group: <?php echo $group->name;?></h2>
+		<p>Status: <?php
 		if (is_array($group->sugestedTransactions)) {
 			if (count($group->sugestedTransactions) > 0) {
 				?> Suggested transactions:</p>
 				<table>
-				<?
+				<?php
 					foreach ($group->sugestedTransactions as $sugestedTransaction) {
 						?>
 						<tr>
-							<td><? echo $sugestedTransaction->from->name; ?></td>
+							<td><?php echo $sugestedTransaction->from->name; ?></td>
 							<td>&rarr;</td>
-							<td><? echo round($sugestedTransaction->ammount, 2); ?></td>
+							<td><?php echo round($sugestedTransaction->ammount, 2); ?></td>
 							<td>&rarr;</td>
-							<td><? echo $sugestedTransaction->to->name; ?></td>
+							<td><?php echo $sugestedTransaction->to->name; ?></td>
 							<td>
 								<form action="creator.php" method="post" style="display:inline; margin:0;">
 									<input type="hidden" name="type" value="Exchange">
-									<input type="hidden" name="groupId" value="<?echo $group->id;?>">
-									<input type="hidden" name="fromUserId" value="<?echo $sugestedTransaction->from->id;?>">
-									<input type="hidden" name="toUserId" value="<?echo $sugestedTransaction->to->id;?>">
-									<input type="hidden" name="ammount" value="<?echo $sugestedTransaction->ammount;?>">
-									<input type="hidden" name="date" value="<? echo date("d.m.Y."); ?>">
+									<input type="hidden" name="groupId" value="<?php echo $group->id;?>">
+									<input type="hidden" name="fromUserId" value="<?php echo $sugestedTransaction->from->id;?>">
+									<input type="hidden" name="toUserId" value="<?php echo $sugestedTransaction->to->id;?>">
+									<input type="hidden" name="ammount" value="<?php echo $sugestedTransaction->ammount;?>">
+									<input type="hidden" name="date" value="<?php echo date("d.m.Y."); ?>">
 									<input type="submit" name="add" value="Accept suggestion">
 								</form>
 							</td>
 						</tr>
-						<?
+						<?php
 					}
 				?>
 				</table>
-				<?
+				<?php
 			} else {
-				?> Everything is in balance</p><?
+				?> Everything is in balance</p><?php
 			}
 		} else {
-			?> group balance is <? echo round($group->groupBalance, 2);
+			?> group balance is <?php echo round($group->groupBalance, 2);
 			if ($group->groupBalance < 0) {
-				?>, it is caused by missing payments or too may expenses.</p><?
+				?>, it is caused by missing payments or too may expenses.</p><?php
 			} else {
-				?>, it is caused by missing expenses or too may payments.</p><?
+				?>, it is caused by missing expenses or too may payments.</p><?php
 			}
 		}
 		?>
 		<p>Users:</p>
 		<table border="1px">
 			<tr><td>Name</td><td>Balance</td></tr>
-			<?
+			<?php
 			foreach ($group->userBalances as $userBalance) {
 				?><tr>
-					<td><? echo $userBalance->user->name; ?></td>
-					<td><? 
+					<td><?php echo $userBalance->user->name; ?></td>
+					<td><?php 
 					$balance = $userBalance->balance;
 					$balance = abs($balance) < 0.01 ? 0 : $balance;
 					echo round($balance, 2); 
 					?></td>
-				</tr><?
+				</tr><?php
 			}
 			?>
 		</table>
@@ -287,9 +287,9 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 		}
 		</script>
 			<form id="addForm" action="creator.php" method="post">
-			<input type="hidden" name="groupId" value="<? echo $groupId; ?>" />
+			<input type="hidden" name="groupId" value="<?php echo $groupId; ?>" />
 			<tr>
-				<td><input id="datepicker" type="text" name="date" value="<? echo date("d.m.Y."); ?>" size="11" style="background-color : #e1e1e1;"></td>
+				<td><input id="datepicker" type="text" name="date" value="<?php echo date("d.m.Y."); ?>" size="11" style="background-color : #e1e1e1;"></td>
 				<td>
 					<select id="typeChooser" name="type" onchange="typeChanged();">
 						<option value="Choose">Choose...</option>
@@ -301,11 +301,11 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 				<td><input id="ammount" type="text" name="ammount" value="0" size="6" style="background-color : #e1e1e1;" onchange="validate();" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"></td>
 				<td id="dataTd">
 					<div id="paymentChooser" style="display:none;">
-						<? 
+						<?php 
 						foreach ($group->users as $user) {
-							?><span style="white-space: nowrap;"><?
+							?><span style="white-space: nowrap;"><?php
 							echo "<input type=\"radio\" name=\"userId\"  onchange=\"paymentChooseChanged();\" value=\"".$user->id."\">".$user->name;
-							?></span><span> </span><?
+							?></span><span> </span><?php
 						}
 						?>
 					</div>
@@ -315,14 +315,14 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 						<input type="radio" name="distributionType" value="equal" onchange="divisionTypeChanged();" checked>Divide equal
 						<input type="radio" name="distributionType" value="custom" onchange="divisionTypeChanged();">Custom
 						<br>
-						<? 
+						<?php 
 						$defaultFactor = round(1./count($group->users), 2);
 						foreach ($group->users as $user) {
-							?><span style="white-space: nowrap;"><?
+							?><span style="white-space: nowrap;"><?php
 							echo "<input type=\"checkbox\" onchange=\"expenseUserChanged(this);\" name=\"userIds[]\" value=\"".$user->id."\">".$user->name;
 							?>
-							<input class="userRatios" type="text" value="<?echo $defaultFactor?>" name="ratio_<?echo $user->id;?>" size="1" style="display:none;" disabled onchange="validate();" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();">
-							</span><span> </span><?
+							<input class="userRatios" type="text" value="<?php echo $defaultFactor?>" name="ratio_<?php echo $user->id;?>" size="1" style="display:none;" disabled onchange="validate();" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();">
+							</span><span> </span><?php
 						}
 						?>
 						</p>
@@ -330,7 +330,7 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 					<div id="exchangeChooser" style="display:none;" >
 						<select id="fromUserId" name="fromUserId" onchange="exchangeChanged();">
 							<option value="Choose">Choose...</option>
-							<?
+							<?php
 							foreach ($group->users as $user) {
 								echo "<option value=\"".$user->id."\">".$user->name."</option>";
 							}
@@ -339,7 +339,7 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 						<span> to </span>
 						<select  id="toUserId" name="toUserId" onchange="exchangeChanged();">
 							<option value="Choose">Choose...</option>
-							<?
+							<?php
 							foreach ($group->users as $user) {
 								echo "<option value=\"".$user->id."\">".$user->name."</option>";
 							}
@@ -350,7 +350,7 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 				<td><input id="submit" type="submit" name="add" value="Add" disabled></td>
 			</tr>
 			</form>
-			<? 
+			<?php 
 			foreach ($paymentEvents as $paymentEvent) {
 				$data = "???";
 				$imgType = ""; 
@@ -374,20 +374,20 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 				}
 				?>
 				<tr>
-				<td><? echo date("d.m.Y.", $paymentEvent->date/1000); ?></td>
-				<td><img src="<? echo $imgType; ?>" width=25 height=25/><? echo $paymentEvent->type; ?></td>
-				<td><? echo round($paymentEvent->event->ammount, 2); ?></td>
-				<td><? echo $data; ?></td>
+				<td><?php echo date("d.m.Y.", $paymentEvent->date/1000); ?></td>
+				<td><img src="<?php echo $imgType; ?>" width=25 height=25/><?php echo $paymentEvent->type; ?></td>
+				<td><?php echo round($paymentEvent->event->ammount, 2); ?></td>
+				<td><?php echo $data; ?></td>
 				<td>
-					<form method="post" style="display: inline; margin: 0;" action="deleter.php" onsubmit="return confirm('Do you really want to delete <? echo $paymentEvent->type; ?>?');">
-						<input type="hidden" name="id" value="<?echo $paymentEvent->event->id;?>" />
-						<input type="hidden" name="type" value="<?echo $paymentEvent->type;?>" />
-						<input type="hidden" name="groupId" value="<? echo $groupId; ?>" />
+					<form method="post" style="display: inline; margin: 0;" action="deleter.php" onsubmit="return confirm('Do you really want to delete <?php echo $paymentEvent->type; ?>?');">
+						<input type="hidden" name="id" value="<?php echo $paymentEvent->event->id;?>" />
+						<input type="hidden" name="type" value="<?php echo $paymentEvent->type;?>" />
+						<input type="hidden" name="groupId" value="<?php echo $groupId; ?>" />
 						<input type="image" src="delete-logo.jpg" alt="Delete" width="25" height="25" />
 					</form>
 				</td>
 				</tr>
-				<?
+				<?php
 			}
 			?>
 		</table>
