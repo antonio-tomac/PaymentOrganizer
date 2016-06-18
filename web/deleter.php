@@ -1,6 +1,6 @@
 <?php
 
-$backendHost = "http://localhost:8081";
+$backendHost = "http://10.11.12.3:8081";
 
 $type = $_REQUEST['type'];
 $groupId = $_REQUEST['groupId'];
