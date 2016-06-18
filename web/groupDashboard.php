@@ -5,7 +5,7 @@ if ($groupId == null || $groupId == "") {
 	echo "Missing param groupId";
 	die;
 }
-$groupJson = file_get_contents("http://localhost:8081/groups/$groupId");
+$groupJson = file_get_contents("http://10.11.12.3:8081/groups/$groupId");
 //var_dump($groupJson);
 $group = json_decode($groupJson);
 //var_dump($group);
@@ -18,7 +18,7 @@ if ($group == null) {
 }
 //hack to detect if running on server or local
 $localIp = "127.0.0.1";
-$serverIp = "50.28.32.145";
+$serverIp = "213.186.1.203";
 $socketIp = file_exists("on_server") ? $serverIp : $localIp;
 ?>
 <html>
