@@ -44,7 +44,7 @@ public class MongoConfiguration extends AbstractMongoConfiguration {
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 
 	// ---------------------------------------------------- mongodb config

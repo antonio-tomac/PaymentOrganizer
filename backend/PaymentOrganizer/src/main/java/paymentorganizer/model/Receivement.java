@@ -12,8 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Antonio Tomac <antonio.tomac@mediatoolkit.com>
  */
 @Data
-@Document(collection = "payments")
-public class Payment implements Sortable {
+@Document(collection = "receivements")
+public class Receivement implements Sortable {
 
 	@Id
 	private final ObjectId id = new ObjectId();

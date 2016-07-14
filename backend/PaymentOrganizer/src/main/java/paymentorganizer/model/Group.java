@@ -1,7 +1,6 @@
 package paymentorganizer.model;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +30,8 @@ public class Group {
 	private final List<Payment> payments;
 	private final List<Exchange> exchanges;
 	private final List<Expense> expenses;
+	private final List<Income> incomes;
+	private final List<Receivement> receivements;
 
 	public Group(String name) {
 		this.name = name;
@@ -38,6 +39,8 @@ public class Group {
 		payments = new LinkedList<>();
 		exchanges = new LinkedList<>();
 		expenses = new LinkedList<>();
+		incomes = new LinkedList<>();
+		receivements = new LinkedList<>();
 	}
 
 	public String getId() {
@@ -119,24 +122,30 @@ public class Group {
 		expenses.remove(expense);
 	}
 
-	public static class UserBalance {
-
-		private final User user;
-		private final double balance;
-
-		public UserBalance(User user, double balance) {
-			this.user = user;
-			this.balance = balance;
-		}
-
-		public User getUser() {
-			return user;
-		}
-
-		public double getBalance() {
-			return balance;
-		}
+	public List<Income> getIncomes() {
+		return Collections.unmodifiableList(incomes);
 	}
+
+	public void addIncome(Income income) {
+		incomes.add(income);
+	}
+
+	public void removeIncome(Income income) {
+		incomes.remove(income);
+	}
+
+	public List<Receivement> getReceivements() {
+		return Collections.unmodifiableList(receivements);
+	}
+
+	public void addReceivement(Receivement receivement) {
+		receivements.add(receivement);
+	}
+
+	public void removeReceivement(Receivement receivement) {
+		receivements.remove(receivement);
+	}
+
 
 	public List<UserBalance> getUserBalances() {
 		List<UserBalance> userBalances = new LinkedList<>();
@@ -161,13 +170,29 @@ public class Group {
 			userBalanceMap.put(userReceiver, userBalanceMap.get(userReceiver) - exchange.getAmmount());
 		}
 		for (Expense expense : expenses) {
-			for (Expense.UserRatio userRatio : expense.getUserRatios()) {
+			for (UserRatio userRatio : expense.getUserRatios()) {
 				User user = userRatio.getUser();
 				if (!userBalanceMap.containsKey(user)) {
 					userBalanceMap.put(user, 0.);
 				}
 				userBalanceMap.put(user, userBalanceMap.get(user) - userRatio.getRatio() * expense.getAmmount());
 			}
+		}
+		for (Income income : incomes) {
+			for (UserRatio userRatio : income.getUserRatios()) {
+				User user = userRatio.getUser();
+				if (!userBalanceMap.containsKey(user)) {
+					userBalanceMap.put(user, 0.);
+				}
+				userBalanceMap.put(user, userBalanceMap.get(user) + userRatio.getRatio() * income.getAmmount());
+			}
+		}
+		for (Receivement receivement : receivements) {
+			User user = receivement.getUser();
+			if (!userBalanceMap.containsKey(user)) {
+				userBalanceMap.put(user, 0.);
+			}
+			userBalanceMap.put(user, userBalanceMap.get(user) - receivement.getAmmount());
 		}
 		for (Map.Entry<User, Double> entry : userBalanceMap.entrySet()) {
 			User user = entry.getKey();
@@ -191,41 +216,6 @@ public class Group {
 		return Calculator.getGroupDisbalance(getUserBalances());
 	}
 	
-	public static class PaymentEvent implements Comparable<PaymentEvent>{
-		private final Sortable event;
-		private final Date date;
-		private final String type;
-
-		public PaymentEvent(Sortable event, Date date) {
-			this.event = event;
-			this.date = date;
-			type = event.getClass().getSimpleName();
-		}
-
-		public Sortable getEvent() {
-			return event;
-		}
-
-		public Date getDate() {
-			return date;
-		}
-
-		public String getType() {
-			return type;
-		}
-
-		@Override
-		public int compareTo(PaymentEvent o) {
-			int compareTo = date.compareTo(o.getDate());
-			if (compareTo == 0) {
-				int timestamp = event.getObjectId().getTimestamp();
-				int otherTimestamp = o.getEvent().getObjectId().getTimestamp();
-				return Integer.compare(timestamp, otherTimestamp);
-			}
-			return compareTo;
-		}
-		
-	}
 	
 	public List<PaymentEvent> getPaymentEvents() {
 		List<PaymentEvent> paymentEvents = new LinkedList<>();
@@ -237,6 +227,12 @@ public class Group {
 		}
 		for (Exchange exchange : exchanges) {
 			paymentEvents.add(new PaymentEvent(exchange, exchange.getDate()));
+		}
+		for (Income income : incomes) {
+			paymentEvents.add(new PaymentEvent(income, income.getDate()));
+		}
+		for (Receivement receivement : receivements) {
+			paymentEvents.add(new PaymentEvent(receivement, receivement.getDate()));
 		}
 		Collections.sort(paymentEvents);
 		return paymentEvents;

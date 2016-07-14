@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import paymentorganizer.model.Exchange;
 import paymentorganizer.model.Expense;
-import paymentorganizer.model.Expense.UserRatio;
+import paymentorganizer.model.UserRatio;
 import paymentorganizer.model.Group;
 import paymentorganizer.model.Payment;
 import paymentorganizer.model.User;

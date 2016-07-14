@@ -13,8 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Antonio Tomac <antonio.tomac@mediatoolkit.com>
  */
 @Data
-@Document(collection = "expenses")
-public class Expense implements Sortable {
+@Document(collection = "incomes")
+public class Income implements Sortable {
 
 	@Id
 	private final ObjectId id = new ObjectId();
@@ -23,7 +23,8 @@ public class Expense implements Sortable {
 	private final double ammount;
 	private final List<UserRatio> userRatios;
 
-	public Expense(String name, Date date, double ammount, List<UserRatio> userRatios) {
+	public Income(String name, Date date, double ammount,
+			List<UserRatio> userRatios) {
 		this.name = name;
 		this.date = date;
 		this.ammount = ammount;
@@ -43,7 +44,7 @@ public class Expense implements Sortable {
 	public List<UserRatio> getUserRatios() {
 		return Collections.unmodifiableList(userRatios);
 	}
-
+	
 	public double getUserRatio(User user) {
 		for (UserRatio userRatio : userRatios) {
 			if (userRatio.getUser().equals(user)) {

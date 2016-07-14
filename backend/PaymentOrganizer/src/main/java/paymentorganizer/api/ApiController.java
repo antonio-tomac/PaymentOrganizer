@@ -30,12 +30,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import paymentorganizer.MongoConfiguration;
-import paymentorganizer.model.Group;
-import paymentorganizer.model.Payment;
-import paymentorganizer.model.User;
 import paymentorganizer.model.Exchange;
 import paymentorganizer.model.Expense;
-import paymentorganizer.model.Expense.UserRatio;
+import paymentorganizer.model.Group;
+import paymentorganizer.model.Income;
+import paymentorganizer.model.Payment;
+import paymentorganizer.model.Receivement;
+import paymentorganizer.model.User;
+import paymentorganizer.model.UserRatio;
 import paymentorganizer.repositories.GroupRepository;
 import paymentorganizer.repositories.Repository;
 import paymentorganizer.repositories.UserRepository;
@@ -271,6 +273,117 @@ public class ApiController {
 		publishReload(groupId);
 		return group;
 	}
+	
+	public static class IncomeData {
+		@Min(0)
+		protected double ammount;
+		@JsonDeserialize(using = DateJson.DateDeserializer.class)
+		protected Date date;
+		@Size(min = 1)
+		protected String name;
+		@NotNull
+		protected Map<String, Double> userRatios;
+
+		public double getAmmount() {
+			return ammount;
+		}
+
+		public Date getDate() {
+			return date;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public Map<String, Double> getUserRatios() {
+			return Collections.unmodifiableMap(userRatios);
+		}
+	}
+
+	
+	@RequestMapping(value = "/groups/{groupId}/incomes", method = RequestMethod.POST)
+	public Income addIncome(@PathVariable String groupId, @RequestBody IncomeData incomeData) {
+		checkGroupExist(groupId);
+		Group group = groupRepository.findOne(groupId);
+		List<UserRatio> userRatiosList = new ArrayList<>(incomeData.userRatios.size());
+		for (Map.Entry<String, Double> userRatio : incomeData.userRatios.entrySet()) {
+			String userId = userRatio.getKey();
+			Double ratio = userRatio.getValue();
+			checkUserExist(userId);
+			User user = userRepository.findOne(userId);
+			userRatiosList.add(new UserRatio(user, ratio));
+		}
+		Income income = new Income(incomeData.name, incomeData.date, incomeData.ammount, userRatiosList);
+		group.addIncome(income);
+		groupRepository.save(group);
+		publishReload(groupId);
+		return income;
+	}
+
+	@RequestMapping(value = "/groups/{groupId}/incomes/{incomeId}", method = RequestMethod.DELETE)
+	public Group deleteIncome(@PathVariable String groupId, @PathVariable String incomeId) {
+		checkGroupExist(groupId);
+		Group group = groupRepository.findOne(groupId);
+		for (Income income : group.getIncomes()) {
+			if (income.getId().equals(incomeId)) {
+				group.removeIncome(income);
+				groupRepository.save(group);
+				break;
+			}
+		}
+		publishReload(groupId);
+		return group;
+	}
+	
+	public static class ReceivementData {
+
+		protected String userId;
+		@Min(0)
+		protected double ammount;
+		@JsonDeserialize(using = DateJson.DateDeserializer.class)
+		protected Date date;
+
+		public String getUserId() {
+			return userId;
+		}
+
+		public double getAmmount() {
+			return ammount;
+		}
+
+		public Date getDate() {
+			return date;
+		}
+	}
+	
+	@RequestMapping(value = "/groups/{groupId}/receivements", method = RequestMethod.POST)
+	public Receivement addReceivement(@PathVariable String groupId, @RequestBody ReceivementData receivementData) {
+		checkGroupExist(groupId);
+		Group group = groupRepository.findOne(groupId);
+		checkUserExist(receivementData.userId);
+		User user = userRepository.findOne(receivementData.userId);
+		Receivement receivement = new Receivement(receivementData.ammount, receivementData.date, user);
+		group.addReceivement(receivement);
+		groupRepository.save(group);
+		publishReload(groupId);
+		return receivement;
+	}
+
+	@RequestMapping(value = "/groups/{groupId}/receivements/{receivmentId}", method = RequestMethod.DELETE)
+	public Group deleteReceivement(@PathVariable String groupId, @PathVariable String receivmentId) {
+		checkGroupExist(groupId);
+		Group group = groupRepository.findOne(groupId);
+		for (Receivement receivement : group.getReceivements()) {
+			if (receivement.getId().equals(receivmentId)) {
+				group.removeReceivement(receivement);
+				groupRepository.save(group);
+				break;
+			}
+		}
+		publishReload(groupId);
+		return group;
+	}
 
 	@Autowired
 	private SimpMessagingTemplate template;
@@ -289,13 +402,9 @@ public class ApiController {
 	@Bean
 	EmbeddedServletContainerCustomizer containerCustomizer() throws Exception {
 
-		return new EmbeddedServletContainerCustomizer() {
-
-			@Override
-			public void customize(ConfigurableEmbeddedServletContainer container) {
-				TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
-				tomcat.setPort(8081);
-			}
+		return (ConfigurableEmbeddedServletContainer container) -> {
+			TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
+			tomcat.setPort(8081);
 		};
 	}
 

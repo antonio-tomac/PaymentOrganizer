@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
 
 /**
  *
@@ -20,46 +21,38 @@ public class Calculator {
 		return Math.round(ammount * 100) / 100.;
 	}
 
+	@Data
 	public static class Transaction {
 
 		public final User from;
 		public final User to;
 		public final double ammount;
-
-		public Transaction(User from, User to, double ammount) {
-			this.from = from;
-			this.to = to;
-			this.ammount = ammount;
-		}
-
-		@Override
-		public String toString() {
-			return "Transaction{" + "from=" + from.getName() + ", to=" + to.getName() + ", ammount=" + round2dec(ammount) + '}';
-		}
 	}
-	
+
 	public static class UnbalancedAmmounts extends RuntimeException {
+
+		private static final long serialVersionUID = 1L;
 
 		public UnbalancedAmmounts(String message) {
 			super(message);
 		}
-		
+
 	}
-	
-	public static double getGroupDisbalance(List<Group.UserBalance> userBalances) {
+
+	public static double getGroupDisbalance(List<UserBalance> userBalances) {
 		double groupBalance = 0;
-		for (Group.UserBalance userBalance : userBalances) {
+		for (UserBalance userBalance : userBalances) {
 			groupBalance += userBalance.getBalance();
 		}
 		return groupBalance;
 	}
 
-	public static List<Transaction> getSuggestedTransactions(List<Group.UserBalance> userBalances) {
+	public static List<Transaction> getSuggestedTransactions(List<UserBalance> userBalances) {
 		final Map<User, Double> debtorsDebts = new HashMap<>();
 		final Map<User, Double> creditorsCredits = new HashMap<>();
 		List<User> debtors = new ArrayList<>(userBalances.size());
 		List<User> creditors = new ArrayList<>(userBalances.size());
-		for (Group.UserBalance userBalance : userBalances) {
+		for (UserBalance userBalance : userBalances) {
 			double overallDebt = -userBalance.getBalance();
 			User user = userBalance.getUser();
 			if (Math.abs(overallDebt) < MONEY_EPSILON) {
@@ -111,6 +104,32 @@ public class Calculator {
 			throw new UnbalancedAmmounts("Debtoprs and creditors are not in balance in sum of their ammounts");
 		}
 		return transactions;
+	}
+
+	public static List<UserRatio> generateEqualRatios(List<User> users) {
+		List<UserRatio> userRatios = new LinkedList<>();
+		double ratio = 1. / users.size();
+		for (User user : users) {
+			userRatios.add(new UserRatio(user, ratio));
+		}
+		return userRatios;
+	}
+
+	public static void checkRatios(List<UserRatio> userRatios) {
+		double sum = 0;
+		for (UserRatio userRatio : userRatios) {
+			Double ratio = userRatio.ratio;
+			if (ratio < 0 || ratio > 1) {
+				throw new RuntimeException("Ratios must be in range <0, 1] (0 exclusive, 1 inclusive)");
+			}
+			if (Math.abs(ratio) < 10e-4) {
+				throw new RuntimeException("Ratio must be greather than 0");
+			}
+			sum += ratio;
+		}
+		if (Math.abs(sum - 1) > 10e-4) {
+			throw new RuntimeException("Sum of al rtio factors must be equal to 1");
+		}
 	}
 
 }

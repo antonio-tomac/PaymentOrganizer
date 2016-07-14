@@ -1,6 +1,7 @@
 package paymentorganizer.model;
 
 import java.util.Objects;
+import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author Antonio Tomac <antonio.tomac@mediatoolkit.com>
  */
+@Data
 @Document(collection = "users")
 public class User {
 
@@ -22,14 +24,6 @@ public class User {
 
 	public String getId() {
 		return id.toString();
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	@Override
@@ -49,11 +43,6 @@ public class User {
 		}
 		final User other = (User) obj;
 		return Objects.equals(this.id, other.id);
-	}
-
-	@Override
-	public String toString() {
-		return "User{" + "id=" + id + ", name=" + name + '}';
 	}
 
 }
