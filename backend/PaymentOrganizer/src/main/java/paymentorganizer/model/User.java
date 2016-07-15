@@ -1,7 +1,7 @@
 package paymentorganizer.model;
 
-import java.util.Objects;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Antonio Tomac <antonio.tomac@mediatoolkit.com>
  */
 @Data
+@EqualsAndHashCode(of = "id")
 @Document(collection = "users")
 public class User {
 
@@ -25,24 +26,4 @@ public class User {
 	public String getId() {
 		return id.toString();
 	}
-
-	@Override
-	public int hashCode() {
-		int hash = 3;
-		hash = 59 * hash + Objects.hashCode(this.id);
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final User other = (User) obj;
-		return Objects.equals(this.id, other.id);
-	}
-
 }
