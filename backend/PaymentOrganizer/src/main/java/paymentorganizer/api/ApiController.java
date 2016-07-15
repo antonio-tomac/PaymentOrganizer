@@ -37,6 +37,7 @@ import paymentorganizer.model.Income;
 import paymentorganizer.model.Payment;
 import paymentorganizer.model.Receivement;
 import paymentorganizer.model.User;
+import paymentorganizer.model.UserEventBalance;
 import paymentorganizer.model.UserRatio;
 import paymentorganizer.repositories.GroupRepository;
 import paymentorganizer.repositories.Repository;
@@ -80,6 +81,15 @@ public class ApiController {
 	public Group getGroup(@PathVariable String groupId) {
 		checkGroupExist(groupId);
 		return groupRepository.findOne(groupId);
+	}
+
+	@RequestMapping(value = "/groups/{groupId}/users/{userId}/events", method = RequestMethod.GET)
+	public List<UserEventBalance> getUserEvents(@PathVariable String groupId, @PathVariable String userId) {
+		checkGroupExist(groupId);
+		checkUserExist(userId);
+		Group group = groupRepository.findOne(groupId);
+		User user = userRepository.findOne(userId);
+		return group.getUserEventsBalances(user);
 	}
 
 	@RequestMapping(value = "/groups", method = RequestMethod.POST)
@@ -128,7 +138,7 @@ public class ApiController {
 			return date;
 		}
 	}
-	
+
 	@RequestMapping(value = "/groups/{groupId}/payments", method = RequestMethod.POST)
 	public Payment addPayment(@PathVariable String groupId, @RequestBody PaymentData paymentData) {
 		checkGroupExist(groupId);
@@ -158,6 +168,7 @@ public class ApiController {
 	}
 
 	public static class ExchangeData {
+
 		protected String fromUserId;
 		protected String toUserId;
 		@Min(0)
@@ -181,10 +192,10 @@ public class ApiController {
 			return date;
 		}
 	}
-	
+
 	@RequestMapping(value = "/groups/{groupId}/exchanges", method = RequestMethod.POST)
-	public Exchange addExchange(@PathVariable String groupId, 
-			@Valid @RequestBody ExchangeData exchangeData) {
+	public Exchange addExchange(@PathVariable String groupId,
+		@Valid @RequestBody ExchangeData exchangeData) {
 		checkGroupExist(groupId);
 		Group group = groupRepository.findOne(groupId);
 		checkUserExist(exchangeData.fromUserId);
@@ -214,6 +225,7 @@ public class ApiController {
 	}
 
 	public static class ExpenseData {
+
 		@Min(0)
 		protected double ammount;
 		@JsonDeserialize(using = DateJson.DateDeserializer.class)
@@ -239,7 +251,7 @@ public class ApiController {
 			return Collections.unmodifiableMap(userRatios);
 		}
 	}
-	
+
 	@RequestMapping(value = "/groups/{groupId}/expenses", method = RequestMethod.POST)
 	public Expense addExpense(@PathVariable String groupId, @RequestBody ExpenseData expenseData) {
 		checkGroupExist(groupId);
@@ -273,8 +285,9 @@ public class ApiController {
 		publishReload(groupId);
 		return group;
 	}
-	
+
 	public static class IncomeData {
+
 		@Min(0)
 		protected double ammount;
 		@JsonDeserialize(using = DateJson.DateDeserializer.class)
@@ -301,7 +314,6 @@ public class ApiController {
 		}
 	}
 
-	
 	@RequestMapping(value = "/groups/{groupId}/incomes", method = RequestMethod.POST)
 	public Income addIncome(@PathVariable String groupId, @RequestBody IncomeData incomeData) {
 		checkGroupExist(groupId);
@@ -335,7 +347,7 @@ public class ApiController {
 		publishReload(groupId);
 		return group;
 	}
-	
+
 	public static class ReceivementData {
 
 		protected String userId;
@@ -356,7 +368,7 @@ public class ApiController {
 			return date;
 		}
 	}
-	
+
 	@RequestMapping(value = "/groups/{groupId}/receivements", method = RequestMethod.POST)
 	public Receivement addReceivement(@PathVariable String groupId, @RequestBody ReceivementData receivementData) {
 		checkGroupExist(groupId);
@@ -390,7 +402,7 @@ public class ApiController {
 
 	@RequestMapping("/publish")
 	public String publishMessage(@RequestParam String channel,
-			@RequestParam String message) {
+		@RequestParam String message) {
 		this.template.convertAndSend(channel, message);
 		return "ok";
 	}

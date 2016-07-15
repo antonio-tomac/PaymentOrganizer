@@ -1,11 +1,15 @@
 package paymentorganizer.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -146,9 +150,7 @@ public class Group {
 		receivements.remove(receivement);
 	}
 
-
 	public List<UserBalance> getUserBalances() {
-		List<UserBalance> userBalances = new LinkedList<>();
 		Map<User, Double> userBalanceMap = new HashMap<>();
 		for (Payment payment : payments) {
 			User user = payment.getUser();
@@ -194,11 +196,9 @@ public class Group {
 			}
 			userBalanceMap.put(user, userBalanceMap.get(user) - receivement.getAmmount());
 		}
-		for (Map.Entry<User, Double> entry : userBalanceMap.entrySet()) {
-			User user = entry.getKey();
-			Double balance = entry.getValue();
-			userBalances.add(new UserBalance(user, balance));
-		}
+		List<UserBalance> userBalances = userBalanceMap.entrySet().stream()
+			.map(entry -> new UserBalance(entry.getKey(), entry.getValue()))
+			.collect(Collectors.toList());
 		return userBalances;
 	}
 
@@ -211,12 +211,11 @@ public class Group {
 		}
 		return suggestedTransactions;
 	}
-	
+
 	public double getGroupBalance() {
 		return Calculator.getGroupDisbalance(getUserBalances());
 	}
-	
-	
+
 	public List<PaymentEvent> getPaymentEvents() {
 		List<PaymentEvent> paymentEvents = new LinkedList<>();
 		for (Payment payment : payments) {
@@ -236,6 +235,49 @@ public class Group {
 		}
 		Collections.sort(paymentEvents);
 		return paymentEvents;
+	}
+
+	public List<UserEventBalance> getUserEventsBalances(User user) {
+		TreeMap<PaymentEvent, Double> eventToImpact = new TreeMap<>();
+		payments.stream()
+			.filter((payment) -> (payment.getUser().equals(user)))
+			.forEach((payment) -> {
+				eventToImpact.put(new PaymentEvent(payment, payment.getDate()), payment.getAmmount());
+			});
+		expenses.stream().forEach((expense) -> {
+			double userRatio = expense.getUserRatio(user);
+			if (userRatio > 0) {
+				eventToImpact.put(new PaymentEvent(expense, expense.getDate()), -userRatio * expense.getAmmount());
+			}
+		});
+		exchanges.forEach(exchange -> {
+			if (exchange.getFrom().equals(user)) {
+				eventToImpact.put(new PaymentEvent(exchange, exchange.getDate()), exchange.getAmmount());
+			}
+			if (exchange.getTo().equals(user)) {
+				eventToImpact.put(new PaymentEvent(exchange, exchange.getDate()), -exchange.getAmmount());
+			}
+		});
+		incomes.stream().forEach((income) -> {
+			double userRatio = income.getUserRatio(user);
+			if (userRatio > 0) {
+				eventToImpact.put(new PaymentEvent(income, income.getDate()), userRatio * income.getAmmount());
+			}
+		});
+		receivements.stream()
+			.filter((receivement) -> (receivement.getUser().equals(user))
+			).forEach((receivement) -> {
+				eventToImpact.put(new PaymentEvent(receivement, receivement.getDate()), -receivement.getAmmount());
+			});
+		double balance = 0;
+		List<UserEventBalance> result = new ArrayList<>(eventToImpact.size());
+		for (Entry<PaymentEvent, Double> entry : eventToImpact.entrySet()) {
+			PaymentEvent event = entry.getKey();
+			Double impact = entry.getValue();
+			balance += impact;
+			result.add(new UserEventBalance(event, balance));
+		}
+		return result;
 	}
 
 	@Override
