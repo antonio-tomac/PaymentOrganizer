@@ -12,6 +12,10 @@ if ($type == 'Payment') {
 	$url = "$backendHost/groups/$groupId/exchanges/$id";
 } else if ($type == 'Expense') {
 	$url = "$backendHost/groups/$groupId/expenses/$id";
+} else if ($type == 'Income') {
+	$url = "$backendHost/groups/$groupId/incomes/$id";
+} else if ($type == 'Receivement') {
+	$url = "$backendHost/groups/$groupId/receivements/$id";
 }
 
 $ch = curl_init();

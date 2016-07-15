@@ -46,6 +46,32 @@ if ($type == 'Payment') {
 		'ammount' => $ammount,
 		'userRatios' => $userRatios
 	));
+} else if ($type == 'Income') {
+	$url = "$backendHost/groups/$groupId/incomes";
+	$method = "POST";
+	$userIds = $_REQUEST['userIds'];
+	$name = $_REQUEST['name'];
+	$custom = $_REQUEST['distributionType'] == 'custom';
+	$equalRatio = 1./count($userIds);
+	$userRatios = array();
+	foreach ($userIds as $userId) {
+		$userRatios[$userId] = $custom ? $_REQUEST["ratio_$userId"] : $equalRatio;
+	}
+	$body = json_encode(array(
+		'name' => $name, 
+		'date' => $date, 
+		'ammount' => $ammount,
+		'userRatios' => $userRatios
+	));
+} else if ($type == 'Receivement') {
+	$userId = $_REQUEST['userId'];
+	$url = "$backendHost/groups/$groupId/receivements";
+	$body = json_encode(array(
+		'userId' => $userId, 
+		'date' => $date, 
+		'ammount' => $ammount
+	));
+	$method = "POST";
 }
 
 $ch = curl_init();
