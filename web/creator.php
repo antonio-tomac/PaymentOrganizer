@@ -33,7 +33,7 @@ if ($type == 'Payment') {
 	$url = "$backendHost/groups/$groupId/expenses";
 	$method = "POST";
 	$userIds = $_REQUEST['userIds'];
-	$name = $_REQUEST['name'];
+	$name = $_REQUEST['expenseName'];
 	$custom = $_REQUEST['distributionType'] == 'custom';
 	$equalRatio = 1./count($userIds);
 	$userRatios = array();
@@ -50,7 +50,7 @@ if ($type == 'Payment') {
 	$url = "$backendHost/groups/$groupId/incomes";
 	$method = "POST";
 	$userIds = $_REQUEST['userIds'];
-	$name = $_REQUEST['name'];
+	$name = $_REQUEST['incomeName'];
 	$custom = $_REQUEST['distributionType'] == 'custom';
 	$equalRatio = 1./count($userIds);
 	$userRatios = array();

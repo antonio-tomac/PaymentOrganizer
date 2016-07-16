@@ -243,13 +243,13 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
                     valid = false;
                 }
             } else if (type == "Expense") {
-                var name = $('#expenseChooser [name=name]').val();
+                var name = $('#expenseChooser [name=expenseName]').val();
                 if (name.trim().length == 0) {
-                    $('#expenseChooser [name=name]').css("border-color", "red");
+                    $('#expenseChooser [name=expenseName]').css("border-color", "red");
                     dataValid = false;
                     valid = false;
                 } else {
-                    $('#expenseChooser [name=name]').css("border-color", "green");
+                    $('#expenseChooser [name=expenseName]').css("border-color", "green");
                 }
                 var selectedUserIds = $('#expenseChooser input[name=userIds\\[\\]]:checked').map(function () {
                     return this.value;
@@ -300,13 +300,13 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
                     valid = false;
                 }
             } else if (type == "Income") {
-                var name = $('#incomeChooser [name=name]').val();
+                var name = $('#incomeChooser [name=incomeName]').val();
                 if (name.trim().length == 0) {
-                    $('#incomeChooser [name=name]').css("border-color", "red");
+                    $('#incomeChooser [name=incomeName]').css("border-color", "red");
                     dataValid = false;
                     valid = false;
                 } else {
-                    $('#incomeChooser [name=name]').css("border-color", "green");
+                    $('#incomeChooser [name=incomeName]').css("border-color", "green");
                 }
                 var selectedUserIds = $('#incomeChooser input[name=userIds\\[\\]]:checked').map(function () {
                     return this.value;
@@ -387,7 +387,7 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
                     ?>
                 </div>
                 <div id="expenseChooser" style="display:none;">
-                    <p>What: <input type="text" name="name" onchange="validate();" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/></p>
+                    <p>What: <input type="text" name="expenseName" onchange="validate();" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/></p>
                     <p>
                         <input type="radio" name="distributionType" value="equal" onchange="divisionTypeChanged();" checked>Divide equal
                         <input type="radio" name="distributionType" value="custom" onchange="divisionTypeChanged();">Custom
@@ -424,7 +424,7 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
                     </select>
                 </div>
                 <div id="incomeChooser" style="display:none;">
-                    <p>What: <input type="text" name="name" onchange="validate();" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/></p>
+                    <p>What: <input type="text" name="incomeName" onchange="validate();" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/></p>
                     <p>
                         <input type="radio" name="distributionType" value="equal" onchange="divisionTypeChanged();" checked>Divide equal
                         <input type="radio" name="distributionType" value="custom" onchange="divisionTypeChanged();">Custom
