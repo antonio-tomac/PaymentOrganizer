@@ -142,6 +142,14 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
     }
     ?>
 </table>
+<br>
+<table border="1px">
+    <tr><td>All expenses</td><td>All incomes</td></tr>
+    <tr>
+        <td><?php echo number_format($group->groupStats->sumOfExpenses, 2); ?></td>
+        <td><?php echo number_format($group->groupStats->sumOfIncomes, 2); ?></td>
+    </tr>
+</table>
 <p>Payment events:</p>
 <table border="1px">
     <col>
