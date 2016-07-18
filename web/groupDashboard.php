@@ -497,9 +497,13 @@ $socketIp = file_exists("on_server") ? $serverIp : $localIp;
             $imgType = "receivement-logo.png";
             $color = "#aaffaa";
         }
+        $dt = new DateTime();
+        $dt->setTimestamp($paymentEvent->date / 1000);
+        $dt->setTimezone(new DateTimeZone("Europe/Zagreb"));
+        $date = $dt->format('d.m.Y.');
         ?>
         <tr>
-            <td><?php echo date("d.m.Y.", $paymentEvent->date / 1000); ?></td>
+            <td><?php echo $date; ?></td>
             <td><img src="<?php echo $imgType; ?>" width=25 height=25/><?php echo $paymentEvent->type; ?></td>
             <td align="right"><?php echo number_format($paymentEvent->event->ammount, 2); ?></td>
             <td><?php echo $data; ?></td>
