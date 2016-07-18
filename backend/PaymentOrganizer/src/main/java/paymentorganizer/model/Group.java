@@ -279,6 +279,15 @@ public class Group {
 		}
 		return result;
 	}
+	
+	public GroupStats getGroupStats() {
+		Double allExpenses = expenses.stream().collect(Collectors.summingDouble(Expense::getAmmount));
+		Double allIncomes = incomes.stream().collect(Collectors.summingDouble(Income::getAmmount));
+		return GroupStats.builder()
+			.sumOfExpenses(allExpenses)
+			.sumOfIncomes(allIncomes)
+			.build();
+	}
 
 	@Override
 	public String toString() {
