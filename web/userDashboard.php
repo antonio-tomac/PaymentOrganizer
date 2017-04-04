@@ -28,15 +28,17 @@ $userEvents = array_reverse(json_decode($userEventsJson));
             <col width="250">
             <col>
             <tr>
+                <td>Impact</td>
                 <td>Balance</td>
                 <td>Date</td>
                 <td>Type</td>
-                <td>Ammount</td>
+                <td>Amount</td>
                 <td>Data</td>
                 <td>Action</td>
             </tr>
             <?php
             foreach ($userEvents as $userEvent) {
+                $impact = number_format($userEvent->impact, 2);
                 $balance = number_format($userEvent->balance, 2);
                 $paymentEvent = $userEvent->paymentEvent;
                 $data = "???";
@@ -73,6 +75,7 @@ $userEvents = array_reverse(json_decode($userEventsJson));
                 }
                 ?>
                 <tr>
+                    <td align="right"><?php echo $impact; ?></td>
                     <td align="right"><?php echo $balance; ?></td>
                     <td><?php echo date("d.m.Y.", $paymentEvent->date / 1000); ?></td>
                     <td><img src="<?php echo $imgType; ?>" width=25 height=25/><?php echo $paymentEvent->type; ?></td>
