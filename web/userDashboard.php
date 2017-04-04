@@ -25,6 +25,7 @@ $userEvents = array_reverse(json_decode($userEventsJson));
             <col>
             <col>
             <col>
+            <col>
             <col width="250">
             <col>
             <tr>
