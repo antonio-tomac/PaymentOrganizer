@@ -11,4 +11,5 @@ public class UserEventBalance {
 	
 	private final PaymentEvent paymentEvent;
 	private final double balance;
+	private final double impact;
 }

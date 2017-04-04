@@ -275,7 +275,7 @@ public class Group {
 			PaymentEvent event = entry.getKey();
 			Double impact = entry.getValue();
 			balance += impact;
-			result.add(new UserEventBalance(event, balance));
+			result.add(new UserEventBalance(event, balance, impact));
 		}
 		return result;
 	}
